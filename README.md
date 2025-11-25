@@ -3,7 +3,7 @@
 **Author:** Erick Salangsang  
 **Version:** 1.0.0  
 
-A simple API for managing users using **Express.js**.
+A simple API for managing users using **Express.js v5.x**.
 
 ---
 
@@ -38,9 +38,9 @@ MONGODB_PASSWORD=your_mongodb_password
 MONGODB_DBNAME=your_database_name
 ```
 
-6. Start the server:
+6. Start the server (local):
 ```
-npm start
+npm dev
 ```
 Server will run on the port specified in `.env` (default: 8080).
 
