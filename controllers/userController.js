@@ -36,3 +36,22 @@ export const getUserById = async (req, res) => {
         return res.status(500).json({ message: 'Server error', error: error.message })
     }
 }
+
+export const updateUser = async (req, res) => {
+    const userId = req.params.id
+    const user = req.body ?? ''
+
+    if (!user || Object.keys(user).length === 0) {
+        return res.status(400).json({ message: 'Update user data is required' })
+    }
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(userId, user, { new: true })
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' })
+        }
+        return res.status(200).json({ message: 'User updated successfully', updatedUser })
+    } catch (error) {
+        return res.status(500).json({ message: 'Server error', error: error.message })
+    }
+}
