@@ -30,6 +30,10 @@ cp .env.example .env
 ```
 
 5. Update the `.env` file with your values:
+If you don't have a MongoDB account yet, create one here:
+👉 https://www.mongodb.com/cloud/atlas/register
+
+Then create a Cluster, Database User, and Connection String to fill in the values below:
 ```
 PORT=8080
 CLIENT_URL=http://localhost:3000
