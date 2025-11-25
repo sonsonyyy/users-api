@@ -3,7 +3,7 @@ import env from 'dotenv'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import connectDB from './config/database.js'
-// import usersRouter from './routes/userRoutes.js' // Uncomment this line to enable users routes
+import usersRouter from './routes/userRoutes.js'
 // import errorMiddleware from './middlewares/errorMiddleware.js' // Uncomment this line to enable error handling middleware
 
 env.config()
@@ -26,7 +26,7 @@ app.use(bodyParser.json())
 connectDB()
 
 // Routes
-// app.use('/users', usersRouter) // Uncomment this line to enable users routes/
+app.use('/users', usersRouter)
 
 // Error Middleware
 // app.use(errorMiddleware) // Uncomment this line to enable error handling middleware
