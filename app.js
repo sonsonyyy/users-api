@@ -2,7 +2,7 @@ import express from 'express'
 import env from 'dotenv'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-// import connectDB from './config/database.js' // Uncomment this line to enable database connection
+import connectDB from './config/database.js'
 // import usersRouter from './routes/userRoutes.js' // Uncomment this line to enable users routes
 // import errorMiddleware from './middlewares/errorMiddleware.js' // Uncomment this line to enable error handling middleware
 
@@ -23,7 +23,7 @@ app.use(
 app.use(bodyParser.json())
 
 // Connect to the database
-// connectDB() // Uncomment this line when database connection is needed
+connectDB()
 
 // Routes
 // app.use('/users', usersRouter) // Uncomment this line to enable users routes/
