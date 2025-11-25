@@ -40,7 +40,7 @@ MONGODB_DBNAME=your_database_name
 
 6. Start the server (local):
 ```
-npm dev
+npm run dev
 ```
 Server will run on the port specified in `.env` (default: 8080).
 
