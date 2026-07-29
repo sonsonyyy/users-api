@@ -9,7 +9,7 @@ import usersRouter from './routes/userRoutes.js'
 env.config()
 
 const app = express()
-const PORT = process.env.API_PORT || 8080
+const PORT = process.env.API_PORT ?? 8080
 
 // Setup CORS
 app.use(
@@ -22,9 +22,6 @@ app.use(
 // Middleware
 app.use(bodyParser.json())
 
-// Connect to the database
-connectDB()
-
 // Routes
 app.use('/users', usersRouter)
 
@@ -32,10 +29,22 @@ app.use('/users', usersRouter)
 // app.use(errorMiddleware) // Uncomment this line to enable error handling middleware
 
 // Home route
-app.get('/', (req, res) => {
-    res.send('Users API is running')
+app.get('/', (_req, res) => {
+  res.send('Users API is running')
 })
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`)
-})
+const startServer = async (): Promise<void> => {
+  try {
+    await connectDB()
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`)
+    })
+  } catch (error) {
+    console.error('Failed to start server')
+    console.error(error)
+    process.exit(1)
+  }
+}
+
+await startServer()

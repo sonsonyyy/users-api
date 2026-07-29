@@ -3,7 +3,7 @@
 **Author:** Erick Salangsang  
 **Version:** 1.0.0  
 
-A simple API for managing users using **Express.js v5.x**.
+A simple API for managing users using **Express.js v5.x** and **TypeScript**.
 
 ---
 
@@ -34,18 +34,29 @@ If you don't have a MongoDB account yet, create one here: https://www.mongodb.co
 
 Then create a Cluster, Database User, and Connection String to fill in the values below:
 ```
-PORT=8080
+API_PORT=8080
 CLIENT_URL=http://localhost:3000
 MONGODB_USER=your_mongodb_user
 MONGODB_PASSWORD=your_mongodb_password
 MONGODB_DBNAME=your_database_name
 ```
 
-6. Start the server (local):
+6. Start the server in development mode:
 ```
 npm run dev
 ```
 Server will run on the port specified in `.env` (default: 8080).
+
+7. Type-check the project:
+```
+npm run typecheck
+```
+
+8. Build and start the compiled app:
+```
+npm run build
+npm start
+```
 
 ---
 
