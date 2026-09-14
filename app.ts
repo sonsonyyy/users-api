@@ -1,7 +1,8 @@
-import express from 'express'
-import cors from 'cors'
 import bodyParser from 'body-parser'
+import cors from 'cors'
+import express from 'express'
 import usersRouter from './routes/userRoutes.js'
+
 // import errorMiddleware from './middlewares/errorMiddleware.js' // Uncomment this line to enable error handling middleware
 
 const app = express()
@@ -11,7 +12,7 @@ app.use(
   cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  })
+  }),
 )
 
 // Middleware

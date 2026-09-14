@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
 import request from 'supertest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const modelMock = {
   createUser: vi.fn(),
@@ -34,9 +34,11 @@ describe('User routes', () => {
     it('creates a user and returns 201', async () => {
       modelMock.createUser.mockResolvedValue(user)
 
-      const res = await request(app)
-        .post('/users')
-        .send({ firstName: 'Ada', lastName: 'Lovelace', email: 'ada@example.com' })
+      const res = await request(app).post('/users').send({
+        firstName: 'Ada',
+        lastName: 'Lovelace',
+        email: 'ada@example.com',
+      })
 
       expect(res.status).toBe(201)
       expect(res.body.newUser).toEqual(user)
@@ -64,9 +66,11 @@ describe('User routes', () => {
     it('returns 409 when the email already exists', async () => {
       modelMock.createUser.mockRejectedValue({ code: '23505' })
 
-      const res = await request(app)
-        .post('/users')
-        .send({ firstName: 'Ada', lastName: 'Lovelace', email: 'ada@example.com' })
+      const res = await request(app).post('/users').send({
+        firstName: 'Ada',
+        lastName: 'Lovelace',
+        email: 'ada@example.com',
+      })
 
       expect(res.status).toBe(409)
     })
@@ -74,9 +78,11 @@ describe('User routes', () => {
     it('returns 500 on an unexpected error', async () => {
       modelMock.createUser.mockRejectedValue(new Error('boom'))
 
-      const res = await request(app)
-        .post('/users')
-        .send({ firstName: 'Ada', lastName: 'Lovelace', email: 'ada@example.com' })
+      const res = await request(app).post('/users').send({
+        firstName: 'Ada',
+        lastName: 'Lovelace',
+        email: 'ada@example.com',
+      })
 
       expect(res.status).toBe(500)
     })
@@ -124,7 +130,9 @@ describe('User routes', () => {
     it('updates a user and returns 200', async () => {
       modelMock.updateUserById.mockResolvedValue(user)
 
-      const res = await request(app).put(`/users/${user.id}`).send({ firstName: 'Grace' })
+      const res = await request(app)
+        .put(`/users/${user.id}`)
+        .send({ firstName: 'Grace' })
 
       expect(res.status).toBe(200)
       expect(res.body.updatedUser).toEqual(user)
@@ -140,7 +148,9 @@ describe('User routes', () => {
     it('returns 404 when the user does not exist', async () => {
       modelMock.updateUserById.mockResolvedValue(null)
 
-      const res = await request(app).put(`/users/${user.id}`).send({ firstName: 'Grace' })
+      const res = await request(app)
+        .put(`/users/${user.id}`)
+        .send({ firstName: 'Grace' })
 
       expect(res.status).toBe(404)
     })
@@ -148,7 +158,9 @@ describe('User routes', () => {
     it('returns 409 when the new email is already taken', async () => {
       modelMock.updateUserById.mockRejectedValue({ code: '23505' })
 
-      const res = await request(app).put(`/users/${user.id}`).send({ email: 'taken@example.com' })
+      const res = await request(app)
+        .put(`/users/${user.id}`)
+        .send({ email: 'taken@example.com' })
 
       expect(res.status).toBe(409)
     })

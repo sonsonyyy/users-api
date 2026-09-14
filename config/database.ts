@@ -2,7 +2,12 @@ import pg from 'pg'
 
 const { Pool } = pg
 
-type DatabaseEnvKey = 'POSTGRES_USER' | 'POSTGRES_PASSWORD' | 'POSTGRES_DB' | 'POSTGRES_HOST' | 'POSTGRES_PORT'
+type DatabaseEnvKey =
+  | 'POSTGRES_USER'
+  | 'POSTGRES_PASSWORD'
+  | 'POSTGRES_DB'
+  | 'POSTGRES_HOST'
+  | 'POSTGRES_PORT'
 
 const getRequiredEnv = (key: DatabaseEnvKey): string => {
   const value = process.env[key]
