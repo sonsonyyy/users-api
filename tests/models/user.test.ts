@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const queryMock = vi.fn()
 
@@ -14,9 +14,13 @@ vi.mock('pg', () => ({
   },
 }))
 
-const { createUser, findAllUsers, findUserById, updateUserById, deleteUserById } = await import(
-  '../../models/user.js'
-)
+const {
+  createUser,
+  findAllUsers,
+  findUserById,
+  updateUserById,
+  deleteUserById,
+} = await import('../../models/user.js')
 
 const row = {
   id: '11111111-1111-1111-1111-111111111111',
@@ -52,7 +56,7 @@ describe('user model', () => {
 
     expect(queryMock).toHaveBeenCalledWith(
       expect.stringContaining('INSERT INTO users'),
-      ['Ada', 'Lovelace', 'ada@example.com']
+      ['Ada', 'Lovelace', 'ada@example.com'],
     )
     expect(result).toEqual(mappedUser)
   })
@@ -62,7 +66,9 @@ describe('user model', () => {
 
     const result = await findAllUsers()
 
-    expect(queryMock).toHaveBeenCalledWith(expect.stringContaining('SELECT * FROM users'))
+    expect(queryMock).toHaveBeenCalledWith(
+      expect.stringContaining('SELECT * FROM users'),
+    )
     expect(result).toEqual([mappedUser])
   })
 
@@ -73,7 +79,7 @@ describe('user model', () => {
 
     expect(queryMock).toHaveBeenCalledWith(
       expect.stringContaining('WHERE id = $1'),
-      [row.id]
+      [row.id],
     )
     expect(result).toEqual(mappedUser)
   })
@@ -93,7 +99,7 @@ describe('user model', () => {
 
     expect(queryMock).toHaveBeenCalledWith(
       expect.stringContaining('SET first_name = $1'),
-      ['Ada', row.id]
+      ['Ada', row.id],
     )
     expect(result).toEqual(mappedUser)
   })
@@ -106,7 +112,7 @@ describe('user model', () => {
     expect(queryMock).toHaveBeenCalledTimes(1)
     expect(queryMock).toHaveBeenCalledWith(
       expect.stringContaining('SELECT * FROM users WHERE id = $1'),
-      [row.id]
+      [row.id],
     )
     expect(result).toEqual(mappedUser)
   })
@@ -118,7 +124,7 @@ describe('user model', () => {
 
     expect(queryMock).toHaveBeenCalledWith(
       expect.stringContaining('DELETE FROM users WHERE id = $1'),
-      [row.id]
+      [row.id],
     )
     expect(result).toEqual(mappedUser)
   })
