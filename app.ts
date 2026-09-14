@@ -1,15 +1,10 @@
 import express from 'express'
-import env from 'dotenv'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import connectDB from './config/database.js'
 import usersRouter from './routes/userRoutes.js'
 // import errorMiddleware from './middlewares/errorMiddleware.js' // Uncomment this line to enable error handling middleware
 
-env.config()
-
 const app = express()
-const PORT = process.env.API_PORT ?? 8080
 
 // Setup CORS
 app.use(
@@ -33,18 +28,4 @@ app.get('/', (_req, res) => {
   res.send('Users API is running')
 })
 
-const startServer = async (): Promise<void> => {
-  try {
-    await connectDB()
-
-    app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`)
-    })
-  } catch (error) {
-    console.error('Failed to start server')
-    console.error(error)
-    process.exit(1)
-  }
-}
-
-await startServer()
+export default app

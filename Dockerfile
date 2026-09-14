@@ -30,4 +30,4 @@ USER nodejs
 
 EXPOSE 8081
 
-CMD ["node", "dist/app.js"]
+CMD ["node", "dist/server.js"]
