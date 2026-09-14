@@ -1,28 +1,44 @@
-import mongoose from 'mongoose'
+import pg from 'pg'
 
-mongoose.set('bufferCommands', false)
+const { Pool } = pg
 
-type DatabaseEnvKey = 'MONGODB_USER' | 'MONGODB_PASSWORD' | 'MONGODB_DBNAME'
+type DatabaseEnvKey = 'POSTGRES_USER' | 'POSTGRES_PASSWORD' | 'POSTGRES_DB' | 'POSTGRES_HOST' | 'POSTGRES_PORT'
 
 const getRequiredEnv = (key: DatabaseEnvKey): string => {
   const value = process.env[key]
 
   if (!value) {
-    throw new Error(`${key} is required to connect to MongoDB`)
+    throw new Error(`${key} is required to connect to PostgreSQL`)
   }
 
   return value
 }
 
-const buildMongoURI = (): string => {
-  const dbUser = encodeURIComponent(getRequiredEnv('MONGODB_USER'))
-  const dbPassword = encodeURIComponent(getRequiredEnv('MONGODB_PASSWORD'))
-  const dbName = encodeURIComponent(getRequiredEnv('MONGODB_DBNAME'))
+export const pool = new Pool({
+  user: getRequiredEnv('POSTGRES_USER'),
+  password: getRequiredEnv('POSTGRES_PASSWORD'),
+  database: getRequiredEnv('POSTGRES_DB'),
+  host: process.env.POSTGRES_HOST ?? 'localhost',
+  port: Number(process.env.POSTGRES_PORT ?? 5432),
+})
 
-  return `mongodb+srv://${dbUser}:${dbPassword}@dev-users.9mtcsr2.mongodb.net/${dbName}?retryWrites=true&w=majority`
+const createUsersTable = async (): Promise<void> => {
+  await pool.query(`
+    CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+    CREATE TABLE IF NOT EXISTS users (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      first_name TEXT NOT NULL,
+      last_name TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
 }
 
 export default async function connectDB(): Promise<void> {
-  await mongoose.connect(buildMongoURI())
-  console.log('MongoDB connected')
+  await pool.query('SELECT 1')
+  await createUsersTable()
+  console.log('PostgreSQL connected')
 }

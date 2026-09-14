@@ -18,13 +18,14 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "mongoose": "^9.0.0"
+    "pg": "^8.13.1"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.2",
+    "@types/pg": "^8.11.10",
     "nodemon": "^3.1.11",
     "tsx": "^4.23.1",
     "typescript": "^7.0.2"

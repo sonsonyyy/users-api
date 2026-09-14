@@ -30,22 +30,23 @@ cp .env.example .env
 ```
 
 5. Update the `.env` file with your values:
-If you don't have a MongoDB account yet, create one here: https://www.mongodb.com/cloud/atlas/register
-
-Then create a Cluster, Database User, and Connection String to fill in the values below:
+You'll need a running PostgreSQL instance. The easiest way is via Docker (see below), or install PostgreSQL locally.
 ```
-API_PORT=8080
+API_PORT=8081
 CLIENT_URL=http://localhost:3000
-MONGODB_USER=your_mongodb_user
-MONGODB_PASSWORD=your_mongodb_password
-MONGODB_DBNAME=your_database_name
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5433
+POSTGRES_USER=your_postgres_user
+POSTGRES_PASSWORD=your_postgres_password
+POSTGRES_DB=your_database_name
 ```
+The `users` table is created automatically on startup if it doesn't already exist.
 
 6. Start the server in development mode:
 ```
 npm run dev
 ```
-Server will run on the port specified in `.env` (default: 8080).
+Server will run on the port specified in `.env` (default: 8081).
 
 7. Type-check the project:
 ```
@@ -59,6 +60,14 @@ npm start
 ```
 
 ---
+
+## Running with Docker
+
+This spins up both the API and a PostgreSQL database:
+```
+docker compose up --build
+```
+The API will be available on the port specified by `API_PORT` (default: 8081), and PostgreSQL data persists in a named Docker volume. PostgreSQL itself is reachable on the host at `POSTGRES_PORT` (default: 5433) to avoid clashing with other local Postgres instances.
 
 ## API Endpoints
 
